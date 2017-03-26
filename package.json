@@ -1,0 +1,42 @@
+{
+  "name": "privchat",
+  "version": "1.0.0",
+  "description": "End to end encrypted private chat application",
+  "main": "./lib/app.js",
+  "scripts": {
+    "build": "babel src -d lib",
+    "start": "node ./lib/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krshubham/privchat.git"
+  },
+  "keywords": [
+    "Kumar",
+    "Shubham",
+    "ChatApp",
+    "Aman",
+    "Saha",
+    "Raghav",
+    "Alagh"
+  ],
+  "author": "krshubham",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krshubham/privchat/issues"
+  },
+  "homepage": "https://github.com/krshubham/privchat#readme",
+  "dependencies": {
+    "babel-preset-latest": "^6.24.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1",
+    "socket.io": "^1.7.3",
+    "typescript": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-preset-env": "^1.2.2"
+  }
+}
