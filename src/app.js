@@ -9,6 +9,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname,'../frontend/dist/')));
 app.use(express.static(path.join(__dirname,'../frontend/bower_components')));
+app.use(express.static(path.join(__dirname,'../frontend/static')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/auth',auth);
