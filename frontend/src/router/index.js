@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Login from '@/components/Login';
 import Home from '@/components/Home';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -12,13 +12,17 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login,
-      secured: false
+      meta: {
+        secured: false
+      }
     },
     {
       path: '/home',
       name: 'Home',
       component: Home,
-      secured: true
+      meta: {
+        secured: true
+      }
     }
   ]
-})
+});

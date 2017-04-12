@@ -1,7 +1,14 @@
 <template>
 	<div>
-		<side-bar></side-bar>
-		<chat-content></chat-content>
+		<nav-bar></nav-bar>
+		<div class="row">
+			<div class="col s3 m3">
+				<side-bar></side-bar>
+			</div>
+			<div class="col s9 m9">
+				<chat-content></chat-content>
+			</div>
+		</div>
 		<input-area></input-area>
 	</div>
 </template>
@@ -10,16 +17,21 @@
 import sideBar from './SideBar.vue';
 import chatContent from './ChatContent.vue';
 import inputArea from './InputArea.vue';
+import navBar from './NavBar.vue';
+import router from '../router';
 
 export default {
 	name: 'Home',
-	beforeCreate() {
-		console.log('Logged before being created');
-	},
 	components: {
 		sideBar,
 		chatContent,
-		inputArea
+		inputArea,
+		navBar
 	}
 }
 </script>
+<style>
+	nav{
+		background-color: cyan;
+	}
+</style>

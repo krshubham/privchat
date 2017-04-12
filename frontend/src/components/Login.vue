@@ -49,7 +49,6 @@ export default {
 				}
 			})
 			.catch((err) => {
-				console.log('Goibng');
 				router.push('/home');
 			});
 			return false;
