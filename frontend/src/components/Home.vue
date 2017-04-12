@@ -2,14 +2,14 @@
 	<div>
 		<nav-bar></nav-bar>
 		<div class="row">
-			<div class="col s3 m3">
+			<div class="col s3 m3 no-padding">
 				<side-bar></side-bar>
 			</div>
-			<div class="col s9 m9">
+			<div class="col s9 m9 no-padding">
 				<chat-content></chat-content>
+				<input-area></input-area>
 			</div>
 		</div>
-		<input-area></input-area>
 	</div>
 </template>
 
@@ -30,8 +30,3 @@ export default {
 	}
 }
 </script>
-<style>
-	nav{
-		background-color: cyan;
-	}
-</style>

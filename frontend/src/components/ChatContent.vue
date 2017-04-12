@@ -13,5 +13,6 @@ export default {
 <style scoped>
 	div.chat-content{
 		position: relative;
+		border: 1px solid #f5f5f5;
 	}
 </style>
