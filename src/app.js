@@ -17,16 +17,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 db.connect(connString, (err) => {
-    assert.equal(err,null)
-    console.log('connected to the db');
+	try{
+		assert.equal(err,null);
+		console.log('connected to the db');
+	}
+	catch(err){
+		console.log('Problem in connecting to the database');
+	}
+	
 })
 
 app.use('/auth',auth);
 app.use('*', (req,res) => {
-    res.sendFile(path.join(__dirname,'../frontend/dist/index.html'));
+	res.sendFile(path.join(__dirname,'../frontend/dist/index.html'));
 });
 
 app.listen(Number(8000), () => {
-    console.log('Server running on port 8000');
-    console.log('Hello');
+	console.log('Server running on port 8000');
+	console.log('Hello');
 });

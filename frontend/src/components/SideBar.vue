@@ -1,9 +1,9 @@
 <template>
 	<div class="side-bar">
-		<div class="side-bar-heading">
+		<div class="side-bar-heading amber lighten-3">
 			<h3>Contacts</h3>
 			<ul class="collection">         
-				<li class="collection-item" v-for="contact in contacts">
+				<li class="collection-item amber lighten-5" v-for="contact in contacts">
 					<span>{{contact.name}}</span>
 					<i class="material-icons">android</i>
 				</li>
@@ -41,12 +41,9 @@ export default {
 <style scoped>
 	div.side-bar{
 		position: relative;
-		border: 1px solid #f5f5f5;
+		border: 1px solid #fff8e1;
 		max-height: 647px;
 		overflow: scroll;
-	}
-	div.side-bar-heading{
-		background-color: #f1f1f1;
 	}
 	div.side-bar-heading h3{
 		padding: 0;
