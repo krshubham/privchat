@@ -18,7 +18,6 @@ import sideBar from './SideBar.vue';
 import chatContent from './ChatContent.vue';
 import inputArea from './InputArea.vue';
 import navBar from './NavBar.vue';
-import router from '../router';
 
 export default {
 	name: 'Home',

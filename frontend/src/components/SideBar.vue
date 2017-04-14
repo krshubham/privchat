@@ -2,13 +2,13 @@
 	<div class="side-bar">
 		<div class="side-bar-heading amber lighten-3">
 			<h3>Contacts</h3>
-			<ul class="collection">         
+		</div>
+		<ul class="collection" style="margin: 0;">
 				<li class="collection-item amber lighten-5" v-for="contact in contacts">
 					<span>{{contact.name}}</span>
 					<i class="material-icons">android</i>
 				</li>
 			</ul>
-		</div>
 	</div>
 </template>
 
@@ -32,8 +32,20 @@ export default {
 	},
 	methods: {
 		getContacts(){
-			console.log('called');
+			const token = localStorage.getItem('token');
+			if(token){
+				axios.get('/user/contacts',token).then((response) => {
+					const contacts = response.data;
+					this.contacts = contacts;
+				});		
+			}
+			else{
+				console.log('No token found! Please login again');
+			}
 		}
+	},
+	created() {
+		this.getContacts();
 	}
 }
 </script>
@@ -46,9 +58,13 @@ export default {
 		overflow: scroll;
 	}
 	div.side-bar-heading h3{
-		padding: 0;
-		padding-top: 0.4em;
+		padding: 0.5rem;
+		/*padding-top: 0.4em;*/
 		margin-top: 0;
+		margin-bottom: 0;
+	}
+	div.side-bar-heading{
+		margin-bottom: 0;
 	}
 	li{
 		text-align: left;

@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-	<h1>Login to Continue</h1>
+	<h1>Login to Access</h1>
 	<div class="container">
 		<form class="col s12" id="loginForm">
 			<div class="row">
@@ -74,9 +74,13 @@ export default {
 			user.password = this.password;
 			axios.post('/auth/login',user).then((response) => {
 				const data = response.data;
+				console.log(data);
 				if(data.success){
 					console.log('Granted the login permission');
-					router.push('/home');
+					localStorage.setItem('token',data.token);
+					if(data.token){
+						router.push('/home');
+					}
 				}
 				else{
 					console.log(`Unable to login because ${data.message}`);

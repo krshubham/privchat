@@ -54,8 +54,8 @@ function signup(req,res){
 
 
 /**
- * @param {*} req - The standard express request object
- * @param {*} res - The standard express response object
+ * @param {req} any - The standard express request object
+ * @param {res} any - The standard express response object
  * In the below function, we get the username and password
  * from the user and then check in the following manner
  * 1) Check if the user exists in the database
