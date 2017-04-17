@@ -12,13 +12,11 @@
 		</div>
 	</div>
 </template>
-
 <script>
 import sideBar from './SideBar.vue';
 import chatContent from './ChatContent.vue';
 import inputArea from './InputArea.vue';
 import navBar from './NavBar.vue';
-
 export default {
 	name: 'Home',
 	components: {

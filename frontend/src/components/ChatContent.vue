@@ -1,6 +1,21 @@
 <template>
 	<div class="chat-content">
-		Hello
+		<div class="chat-bubble">
+			<div class="chat-username">
+				<span>Kumar Shubham</span>
+			</div>
+			<div class="chat-content">
+				<p>Hello all</p>
+			</div>
+		</div>
+		<div class="chat-bubble">
+			<div class="chat-username">
+				<span>Kumar Shubham</span>
+			</div>
+			<div class="chat-content">
+				<p>Hello all</p>
+			</div>
+		</div>
 	</div>
 </template>
 

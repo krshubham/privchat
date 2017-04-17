@@ -6,7 +6,8 @@ import assert from 'assert';
 import auth from './routes/auth';
 import path from 'path';
 import db from './db';
-
+import http from 'http';
+import mainApp from './chat-server/main';
 const app = express();
 const connString = 'mongodb://localhost:27017/privchat'
 
@@ -15,6 +16,9 @@ app.use(express.static(path.join(__dirname,'../frontend/dist/')));
 app.use(express.static(path.join(__dirname,'../frontend/bower_components')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+const server = app.server = http.Server(app);
+const io = socket(server);
 
 db.connect(connString, (err) => {
 	try{
@@ -25,14 +29,17 @@ db.connect(connString, (err) => {
 		console.log('Problem in connecting to the database');
 	}
 	
-})
+});
 
 app.use('/auth',auth);
+
+mainApp(io);
+
 app.use('*', (req,res) => {
 	res.sendFile(path.join(__dirname,'../frontend/dist/index.html'));
 });
 
-app.listen(Number(8000), () => {
+server.listen(Number(8000), () => {
 	console.log('Server running on port 8000');
 	console.log('Hello');
 });

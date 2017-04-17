@@ -5,7 +5,7 @@
 		</div>
 		<ul class="collection" style="margin: 0;">
 				<li class="collection-item amber lighten-5" v-for="contact in contacts">
-					<span>{{contact.name}}</span>
+					<span>{{contact.username}}</span>
 					<i class="material-icons">android</i>
 				</li>
 			</ul>
@@ -17,31 +17,22 @@ export default {
 	name: 'sideBar',
 	data() {
 		return {
-			contacts: [
-				{
-					name: 'Kumar Shubham'
-				},
-				{
-					name: 'Aman Saha'
-				},
-				{
-					name: 'Raghav Alagh'
-				}
-			]
+			contacts: []
 		}
 	},
 	methods: {
 		getContacts(){
 			const token = localStorage.getItem('token');
-			if(token){
-				axios.get('/user/contacts',token).then((response) => {
-					const contacts = response.data;
-					this.contacts = contacts;
-				});		
-			}
-			else{
-				console.log('No token found! Please login again');
-			}
+			socket.emit('getOnlineClients',token);
+			socket.on('getOnlineClients',(contacts) => {
+				console.log(contacts);
+				this.contacts = contacts;
+			});
+
+			socket.on('disconnectedClient', (contacts) => {
+				console.log(contacts);
+				this.contacts = contacts;
+			});
 		}
 	},
 	created() {

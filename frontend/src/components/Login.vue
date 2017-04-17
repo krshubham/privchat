@@ -128,6 +128,9 @@ export default {
 		confirmPassword() {
 			return this.signupPassword !== this.confirmSignupPassword;
 		}
+	},
+	beforeCreate() {
+		localStorage.removeItem('token');
 	}
 }
 </script>
