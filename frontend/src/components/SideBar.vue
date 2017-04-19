@@ -1,7 +1,7 @@
 <template>
 	<div class="side-bar">
 		<div class="side-bar-heading amber lighten-3">
-			<h3>Contacts</h3>
+			<h3>Online</h3>
 		</div>
 		<ul class="collection" style="margin: 0;">
 				<li class="collection-item amber lighten-5" v-for="contact in contacts">

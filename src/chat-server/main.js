@@ -1,6 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import assert from 'assert';
 const secret = 'ThisisSecret';
+import db from '../db';
 
 
 /**
@@ -31,6 +32,27 @@ function getUser(token){
 		}
 	});
 }
+
+/**
+ * 
+ * @param {String} username 
+ * This helper method collects all the messages from the messages collection in the database
+ * 
+ */
+
+function getAllChats(username){
+	return new Promise((resolve, reject) => {
+		const messages = db.get().collection('messages');
+		messages.find({}).toArray((err, docs) => {
+			if(err){
+				reject(err);
+				throw err;
+			}
+			resolve(docs);
+		});
+	});
+}
+
 
 
 function mainApp(io){
@@ -68,6 +90,26 @@ function mainApp(io){
 				console.log(err);
 			});
 		});
+
+		/**
+		 * @event {getAllChats} 
+		 * This method is fired in frontend when the chatContent component is created
+		 * @return an array containing all the messages in this form
+		 * {
+		 * 	sender: 'Kumar Shubham',
+		 * 	message: 'A long string containing message'
+		 * }
+		 */
+		socket.on('getAllChats', (auth) => {
+			getUser(token)
+			.then(getAllChats)
+			.then((docs) => {
+				console.log(`Docs from the messages collection have been collected`);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		});
 		
 		/**
 		* The method is called when someone disconnects from the site
@@ -79,7 +121,7 @@ function mainApp(io){
 				}
 			}
 			socket.broadcast.emit('disconnectedClient', online);
-			console.log(`Online cients after being disconnected`);
+			console.log(`Online cients after be-ing disconnected`);
 			console.log(online);
 		});
 	});
