@@ -2,6 +2,8 @@ import * as jwt from 'jsonwebtoken';
 import assert from 'assert';
 const secret = 'ThisisSecret';
 import db from '../db';
+import striptags from 'striptags';
+import xss from 'xss';
 
 
 /**
@@ -24,6 +26,7 @@ let online = [];
 function getUser(token){
 	return new Promise((resolve,reject) => {
 		try{
+			assert.notEqual(token,null);
 			const decoded = jwt.verify(token,secret);
 			resolve(decoded);
 		}
@@ -53,7 +56,34 @@ function getAllChats(username){
 	});
 }
 
+function getMessage(data){
+	return new Promise((resolve,reject) => {
+		try{
+			for(let i in data){
+				assert.notEqual(data[i],null);
+			}
+			const token = data.token;
+			const message = striptags(xss(data.message));
+			const decoded = jwt.verify(token,secret);
+			const username = decoded.data.username;
+			const toResolve = {
+				username,
+				message
+			};
+			resolve(toResolve);
+		}
+		catch(err){
+			reject(err);
+		}
+	});
+}
 
+/**
+ * This is the code for the main-app
+ * From here onwards we are actually handling all the user data
+ * and doing all the stuff
+ * @param {*} io 
+ */
 
 function mainApp(io){
 	const app = io.of('/chat');
@@ -101,27 +131,61 @@ function mainApp(io){
 		 * }
 		 */
 		socket.on('getAllChats', (auth) => {
-			getUser(token)
+			getUser(auth)
 			.then(getAllChats)
 			.then((docs) => {
 				console.log(`Docs from the messages collection have been collected`);
+				console.log(docs);
+				socket.emit('getAllChats',docs);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
 		});
+
+
+		/**
+		 * @event {newMessage}
+		 * this method is responsiblw for inserting the data into the db for every chat message
+		 * The steps to be followed:
+		 * get the message
+		 * remove any unsuspected characters and also striptags
+		 * insert into the database
+		 * The format of the message is:
+		 * {
+				message,
+				token
+			}
+		 */
+		 socket.on('newMessage',(data) => {
+			const messages = db.get().collection('messages');
+			getMessage(data)
+			.then((result) => {
+				messages.insertOne(result)
+				.then(() => {
+					console.log(`Inserted the new message into the db`);
+					app.emit('newMessage',result);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		 });
 		
 		/**
 		* The method is called when someone disconnects from the site
 		*/
-		socket.on('disconnect', () =>{
+		socket.on('disconnect', () => {
 			for (let i = 0; i < online.length; i++) {
 				if (online[i].id === socket.id) {
 					online.splice(i, 1);
 				}
 			}
 			socket.broadcast.emit('disconnectedClient', online);
-			console.log(`Online cients after be-ing disconnected`);
+			console.log(`Online cients after being disconnected`);
 			console.log(online);
 		});
 	});

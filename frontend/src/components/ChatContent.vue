@@ -1,41 +1,38 @@
 <template>
 	<div class="chat-content" align="left">
-		<div class="chat-bubble">
-			<span class="sender">Kumar Shubham : </span>
-			<p>lorem ipsum dolor</p>
-		</div>
-		<div class="chat-bubble">
-			<span class="sender">Kumar Shubham : </span>
-			<p>lorem ipsum dolor</p>
-		</div>
-		<div class="chat-bubble">
-			<span class="sender">Kumar Shubham : </span>
-			<p>lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor
-				lorem ipsum dolor lorem ipsum dolor lorem ipsum dolor
-			</p>
+		<div class="chat-bubble" v-for="chat in chats">
+			<span class="sender">{{chat.username}} : </span>
+			<p>{{chat.message}}</p>
 		</div>
 	</div>
 </template>
 
 <script>
-const token = localStorage.getItem('token')
 export default {
 	name: 'chatContent',
 	data() {
 		return {
-			chats: []
+			chats: [],
+			token: localStorage.getItem('token')
 		};
 	},
 	methods: {
 		getAllChats() {
-			socket.emit('getAllChats',token);
+			socket.emit('getAllChats',this.token);
 			socket.on('getAllChats',(chats) => {
-				console.log(chats);
+				this.chats = chats;
+			});
+		},
+		listenFornewMessages() {
+			socket.on('newMessage',(data) => {
+				console.log('new message received');
+				this.chats.push(data);
 			});
 		}
 	},
 	created() {
 		this.getAllChats();
+		this.listenFornewMessages();
 	}
 }
 </script>
