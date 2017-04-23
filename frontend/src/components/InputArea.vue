@@ -1,9 +1,9 @@
 <template>
-	<div class="input-area">
+	<div class="input-area" v-once>
 		<form class="col s12" id="loginForm" @submit="sendMessage">
 			<div class="row">
 				<div class="input-field col s12">
-					<input placeholder="Message" v-model="message" type="text">
+					<input placeholder="Message" v-model="message" id="message-input" type="text">
 				</div>
 			</div>
 		</form>
@@ -29,6 +29,8 @@ export default {
 			}
 			socket.emit('newMessage',toSend);
 			this.message = '';
+			const messageInput = document.getElementById('message-input');
+			messageInput.value = '';
 			return false;
 		}
 	}
